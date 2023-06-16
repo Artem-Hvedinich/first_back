@@ -1,7 +1,7 @@
 import {MongoClient, ObjectId} from "mongodb";
 import * as dotenv from "dotenv"
-
 dotenv.config()
+
 export type ProductType = {
     _id?: ObjectId,
     title: string
