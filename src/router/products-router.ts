@@ -1,8 +1,14 @@
 import {Request, Response, Router} from "express";
+import {productsRepository} from "../repository/products-repository";
 
-const products = [{id: 0, isActive: true}, {id: 1, isActive: true},]
-
-export const ProductsRouter = Router()
-ProductsRouter.get('/', (req: Request, res: Response) => {
+export const productsRouter = Router()
+productsRouter.get('/', async (req: Request, res: Response) => {
+    const products = await productsRepository.getProducts()
     res.send(products)
+})
+
+productsRouter.post('/', async (req: Request, res: Response) => {
+    console.log(req.body)
+    const newProduct = await productsRepository.createProduct(req.body.title)
+    newProduct ? res.status(201).send(newProduct) : res.send(404)
 })
