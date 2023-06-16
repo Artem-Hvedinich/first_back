@@ -1,10 +1,12 @@
 import express, {Request, Response} from "express"
 import {productsRouter} from "./router/products-router";
 import {runDB} from "./db";
+import bodyParser from "body-parser";
 
 const app = express()
 const port = 8080
 
+app.use(bodyParser())
 const parserMiddleware = express.json()
 app.use(parserMiddleware)
 app.use((_req, res, next) => {

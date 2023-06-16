@@ -5,7 +5,7 @@ export type ProductType = {
     title: string
 }
 
-const url = "mongodb+srv://artem33771:GO7HvtWLipbGqKBs@cluster0.rc4lfsd.mongodb.net/?retryWrites=true&w=majority"
+const url = "mongodb+srv://artem33771:GO7HvtWLipbGqKBs@cluster0.rc4lfsd.mongodb.net/first-back?retryWrites=true&w=majority"
 console.log("url: ", url)
 const client = new MongoClient(url)
 
