@@ -17,6 +17,7 @@ app.use((_req, res, next) => {
 const port = 8080
 
 app.use('/product', ProductsRouter)
+app.get('/', (req: Request, res: Response) => res.send("First Back"))
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
