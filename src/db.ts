@@ -1,12 +1,15 @@
 import {MongoClient, ObjectId} from "mongodb";
+import * as dotenv from "dotenv"
 
+dotenv.config()
 export type ProductType = {
     _id?: ObjectId,
     title: string
 }
 
-const url = "mongodb+srv://artem33771:GO7HvtWLipbGqKBs@cluster0.rc4lfsd.mongodb.net/first-back?retryWrites=true&w=majority"
+const url: string = process.env.MONGO_URI || "http://localhost:8080"
 console.log("url: ", url)
+!url && console.log("url not found")
 const client = new MongoClient(url)
 
 export const productCollections = client.db().collection<ProductType>("products")
