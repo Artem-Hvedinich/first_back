@@ -11,16 +11,15 @@ import {
 export type availableResolutionsType = "P144" | "P240" | "P360" | "P480" | "P720" | "P1080" | "P1440" | "P2160";
 
 export type VideoType = {
-  createdAt: string
-  minAgeRestriction: null | number,
-  author: string,
-  availableResolutions: availableResolutionsType[]
   id: number,
   title: string,
+  author: string,
   canBeDownloaded: boolean,
+  minAgeRestriction: null | number,
+  createdAt: string
   publicationDate: string
+  availableResolutions: availableResolutionsType[]
 }
-
 export const videosRouter = Router();
 
 videosRouter.get("/", async (req: Request, res: Response): Promise<VideoType[]> => {
