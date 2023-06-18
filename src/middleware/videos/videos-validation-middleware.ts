@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from "express";
 
 const ERROR_400 = (res: Response, field: string) => {
   return res.status(400).send({
-    "errorsMessages": [
+    errorsMessages: [
       {
-        "message": "string",
-        "field": "string"
+        message: "string",
+        field
       }
     ]
   });
