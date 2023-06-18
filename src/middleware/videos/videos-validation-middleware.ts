@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 
+const errorsMessages = [];
 const ERROR_400 = (res: Response, field: string) => {
-  return res.status(400).send({
-    errorsMessages: [
-      {
-        message: "string",
-        field
-      }
-    ]
-  });
+  errorsMessages.push(
+    {
+      message: "string",
+      field
+    });
+  return res.status(400).send(errorsMessages);
 };
+
 
 const availableResolutionsTrueArr: string[] = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
 
