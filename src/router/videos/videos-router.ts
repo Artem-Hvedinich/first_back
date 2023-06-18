@@ -3,6 +3,8 @@ import { videosRepository } from "../../repository/videos/videos-repository";
 import {
   authorValidationMiddleware,
   checkedAvailableResolutionsMiddleware,
+  minAgeRestrictionMiddleware,
+  publicationDateMiddleware,
   titleValidationMiddleware
 } from "../../middleware/videos/videos-validation-middleware";
 
@@ -22,11 +24,9 @@ export type VideoType = {
 export const videosRouter = Router();
 
 videosRouter.get("/", async (req: Request, res: Response): Promise<VideoType[]> => {
-    const videos = await videosRepository.findVideos();
-    res.status(200).send(videos);
-  }
-);
-
+  const videos = await videosRepository.findVideos();
+  res.status(200).send(videos);
+});
 videosRouter.post("/",
   titleValidationMiddleware,
   authorValidationMiddleware,
@@ -35,7 +35,6 @@ videosRouter.post("/",
     const newVideo = await videosRepository.createVideos(req.body.title, req.body.author, req.body.availableResolutions);
     res.status(201).send(newVideo);
   });
-
 videosRouter.get("/:id",
   async (req: Request, res: Response): Promise<VideoType | null> => {
     const video = await videosRepository.findVideos(+req.params.id);
@@ -44,14 +43,29 @@ videosRouter.get("/:id",
       return;
     }
     res.status(200).send(video);
-  }
-);
-videosRouter.put("/:id", async (req: Request, res: Response): Promise<VideoType | null> => {
+  });
+videosRouter.put("/:id",
+  titleValidationMiddleware,
+  authorValidationMiddleware,
+  minAgeRestrictionMiddleware,
+  publicationDateMiddleware,
+  checkedAvailableResolutionsMiddleware,
+  async (req: Request, res: Response): Promise<boolean> => {
     const video = await videosRepository.findVideos(+req.params.id);
     if (!video) {
       res.sendStatus(404);
       return;
     }
-    res.status(200).send(video);
+    const isUpdate = await videosRepository.updateVideos(req.body, +req.params.id);
+    isUpdate ? res.send(204) : res.sendStatus(404);
+  });
+
+videosRouter.delete("/:id", async (req: Request, res: Response): Promise<VideoType | null> => {
+  const video = await videosRepository.findVideos(+req.params.id);
+  if (!video) {
+    res.sendStatus(404);
+    return;
   }
-);
+  const isRemove = await videosRepository.removeVideo(+req.params.id);
+  isRemove ? res.send(204) : res.sendStatus(404);
+});
