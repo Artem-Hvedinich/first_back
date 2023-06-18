@@ -10,20 +10,20 @@ type updateData = {
 }
 
 export let videosDB: VideoType[] = [
-  {
-    "id": 391,
-    "title": "first",
-    "author": "Kate",
-    "canBeDownloaded": false,
-    "minAgeRestriction": null,
-    "createdAt": "2023-06-18T18:30:42.391Z",
-    "publicationDate": "2023-06-19T18:30:42.391Z",
-    "availableResolutions": [
-      "P144",
-      "P240",
-      "P360"
-    ]
-  }
+  // {
+  //   "id": 391,
+  //   "title": "first",
+  //   "author": "Kate",
+  //   "canBeDownloaded": false,
+  //   "minAgeRestriction": null,
+  //   "createdAt": "2023-06-18T18:30:42.391Z",
+  //   "publicationDate": "2023-06-19T18:30:42.391Z",
+  //   "availableResolutions": [
+  //     "P144",
+  //     "P240",
+  //     "P360"
+  //   ]
+  // }
 ];
 export const videosRepository = {
   findVideos: async (id?: number): Promise<VideoType[] | VideoType | undefined> =>
