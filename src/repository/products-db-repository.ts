@@ -14,5 +14,5 @@ export const productsRepository = {
             title,
             _id: result.insertedId
         }
-    }
+    },
 }
