@@ -5,7 +5,7 @@ const ERROR_400 = (res: Response, field: string) => {
     "errorsMessages": [
       {
         "message": "string",
-        field
+        "field": "string"
       }
     ]
   });
