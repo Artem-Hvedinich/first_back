@@ -2,12 +2,14 @@ import { NextFunction, Request, Response } from "express";
 
 export let errorsMessages = [];
 const ERROR_400 = (res: Response, field: string) => {
-  errorsMessages.push(
-    {
-      message: "string",
-      field
-    });
-  return res.status(400).send({ errorsMessages });
+  return res.status(400).send({
+    errorsMessages: [
+      {
+        message: "string",
+        field
+      }
+    ]
+  });
 };
 
 
