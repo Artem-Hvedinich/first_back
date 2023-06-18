@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import { videosRepository } from "../../repository/videos/videos-repository";
 import {
   authorValidationMiddleware,
-  checkedAvailableResolutionsMiddleware,
+  checkedAvailableResolutionsMiddleware, errorsMessages,
   minAgeRestrictionMiddleware,
   publicationDateMiddleware,
   titleValidationMiddleware
@@ -31,6 +31,7 @@ videosRouter.post("/",
   authorValidationMiddleware,
   checkedAvailableResolutionsMiddleware,
   async (req: Request, res: Response): Promise<VideoType | null> => {
+    errorsMessages = []
     const newVideo = await videosRepository.createVideos(req.body.title, req.body.author, req.body.availableResolutions);
     res.status(201).send(newVideo);
   });
@@ -50,10 +51,11 @@ videosRouter.put("/:id",
   publicationDateMiddleware,
   checkedAvailableResolutionsMiddleware,
   async (req: Request, res: Response): Promise<boolean> => {
+    errorsMessages = []
     const video = await videosRepository.findVideos(+req.params.id);
     if (!video) {
       res.sendStatus(404);
-      return;
+      return ;
     }
     const isUpdate = await videosRepository.updateVideos(req.body, +req.params.id);
     isUpdate ? res.send(204) : res.sendStatus(404);

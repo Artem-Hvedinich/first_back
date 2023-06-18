@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 
-const errorsMessages = [];
+export let errorsMessages = [];
 const ERROR_400 = (res: Response, field: string) => {
   errorsMessages.push(
     {
       message: "string",
       field
     });
-  return res.status(400).send({ errorsMessages: errorsMessages });
+  return res.status(400).send({ errorsMessages });
 };
 
 
