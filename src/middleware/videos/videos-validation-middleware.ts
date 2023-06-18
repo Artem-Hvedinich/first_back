@@ -7,7 +7,7 @@ const ERROR_400 = (res: Response, field: string) => {
       message: "string",
       field
     });
-  return res.status(400).send(errorsMessages);
+  return res.status(400).send({ errorsMessages });
 };
 
 
