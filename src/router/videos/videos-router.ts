@@ -32,7 +32,6 @@ videosRouter.post("/",
   titleValidationMiddleware,
   authorValidationMiddleware,
   checkedAvailableResolutionsMiddleware,
-  canBeDownloadedMiddleware,
   errorCheckingMiddleware,
   async (req: Request, res: Response) => {
     const newVideo = await videosRepository.createVideos(req.body.title, req.body.author, req.body.availableResolutions);
