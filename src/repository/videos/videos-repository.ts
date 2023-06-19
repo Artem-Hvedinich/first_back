@@ -10,20 +10,20 @@ type updateData = {
 }
 
 export let videosDB: VideoType[] = [
-  // {
-  //   "id": 391,
-  //   "title": "first",
-  //   "author": "Kate",
-  //   "canBeDownloaded": false,
-  //   "minAgeRestriction": null,
-  //   "createdAt": "2023-06-18T18:30:42.391Z",
-  //   "publicationDate": "2023-06-19T18:30:42.391Z",
-  //   "availableResolutions": [
-  //     "P144",
-  //     "P240",
-  //     "P360"
-  //   ]
-  // }
+  {
+    "id": 391,
+    "title": "first",
+    "author": "Kate",
+    "canBeDownloaded": false,
+    "minAgeRestriction": null,
+    "createdAt": "2023-06-18T18:30:42.391Z",
+    "publicationDate": "2023-06-19T18:30:42.391Z",
+    "availableResolutions": [
+      "P144",
+      "P240",
+      "P360"
+    ]
+  }
 ];
 export const videosRepository = {
   findVideos: async (id?: number): Promise<VideoType[] | VideoType | undefined> =>
@@ -35,8 +35,8 @@ export const videosRepository = {
     : Promise<VideoType | null> => {
     const newVideo = <VideoType>{
       id: +(new Date().getMilliseconds()),
-      title: title.trim(),
-      author: author.trim(),
+      title: title,
+      author: author,
       canBeDownloaded: false,
       minAgeRestriction: null,
       createdAt: new Date().toISOString(),
@@ -47,15 +47,15 @@ export const videosRepository = {
     return await newVideo;
   },
   updateVideos: async (data: updateData, id: number): Promise<boolean> => {
-    videosDB = videosDB.map(m => m.id === id ? <VideoType>{
+    videosDB = videosDB.map((m): VideoType => m.id === id ? <VideoType>({
       ...m,
       title: data.title,
       author: data.author,
-      availableResolutions: data.availableResolutions,
+      availableResolutions: [...data.availableResolutions],
       canBeDownloaded: data.canBeDownloaded,
       minAgeRestriction: data.minAgeRestriction,
       publicationDate: data.publicationDate
-    } : m);
+    }) : m);
     return await true;
   },
   removeOneVideo: async (id: number): Promise<boolean> => {

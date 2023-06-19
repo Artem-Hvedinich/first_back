@@ -8,7 +8,7 @@ import { videosRepository } from "./repository/videos/videos-repository";
 export const app = express();
 const port = process.env.PORT || "8080";
 
-app.use(bodyParser());
+app.use(bodyParser.json());
 const parserMiddleware = express.json();
 app.use(parserMiddleware);
 app.use((_req, res, next) => {
@@ -16,15 +16,17 @@ app.use((_req, res, next) => {
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
+
+
 app.get("/", (req: Request, res: Response) => res.send("First Back"));
 app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
-app.delete("/testing/all-data", (req: Request, res: Response)=> {
-  const isRemove = videosRepository.removeAllVideos
-isRemove && res.send(204)
+app.delete("/testing/all-data", async (req: Request, res: Response) => {
+  const isRemove = await videosRepository.removeAllVideos();
+  isRemove && res.send(204);
 });
 const startApp = async () => {
-  await runDB();
+  // await runDB();
   app.listen(port, () => {
     console.log(`🌐 Example app listening on port ${port}`);
   });
