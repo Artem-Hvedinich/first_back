@@ -62,6 +62,6 @@ export const publicationDateMiddleware = (req: Request, res: Response, next: Nex
 };
 export const canBeDownloadedMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const canBeDownloaded = req.body.canBeDownloaded;
-  if (!typeof canBeDownloaded === "boolean") addErrorsMessages("publicationDate");
+  if (!typeof canBeDownloaded === "boolean") addErrorsMessages("canBeDownloaded");
   next();
 };
