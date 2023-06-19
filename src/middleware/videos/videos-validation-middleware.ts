@@ -16,6 +16,11 @@ const addErrorsMessages = (field: string) => {
     });
 };
 
+function isIsoDate(str: string) {
+  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
+  const d = new Date(str);
+  return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === str; // valid date
+}
 
 const availableResolutionsTrueArr: string[] = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
 
@@ -52,6 +57,6 @@ export const minAgeRestrictionMiddleware = (req: Request, res: Response, next: N
 
 export const publicationDateMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const publicationDate = req.body.publicationDate;
-  if (publicationDate && new Date(publicationDate) instanceof Date && !isNaN(+new Date(publicationDate))) addErrorsMessages("publicationDate");
+  if (!isIsoDate(publicationDate)) addErrorsMessages("publicationDate");
   next();
 };
