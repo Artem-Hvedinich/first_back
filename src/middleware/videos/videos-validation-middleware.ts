@@ -14,8 +14,9 @@ const ERROR_400 = (res: Response, field: string) => {
 
 const availableResolutionsTrueArr: string[] = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
 
-export const addNewErrorMessageMiddleware = () => {
+export const addNewErrorMessageMiddleware = (next: NextFunction) => {
   errorsMessages = [];
+  next();
 };
 export const titleValidationMiddleware = (req: Request, res: Response, next: NextFunction) =>
   req.body.title && req.body.title.trim().length > 3 && req.body.title.trim().length <= 40 ? next() : ERROR_400(res, "title");
