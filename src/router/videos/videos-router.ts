@@ -1,8 +1,9 @@
 import { Request, Response, Router } from "express";
 import { videosRepository } from "../../repository/videos/videos-repository";
 import {
+  addNewErrorMessageMiddleware,
   authorValidationMiddleware,
-  checkedAvailableResolutionsMiddleware, errorsMessages,
+  checkedAvailableResolutionsMiddleware,
   minAgeRestrictionMiddleware,
   publicationDateMiddleware,
   titleValidationMiddleware
@@ -27,6 +28,7 @@ videosRouter.get("/", async (req: Request, res: Response): Promise<VideoType[]> 
   res.status(200).send(videos);
 });
 videosRouter.post("/",
+  addNewErrorMessageMiddleware,
   titleValidationMiddleware,
   authorValidationMiddleware,
   checkedAvailableResolutionsMiddleware,
@@ -44,6 +46,7 @@ videosRouter.get("/:id",
     res.status(200).send(video);
   });
 videosRouter.put("/:id",
+  addNewErrorMessageMiddleware,
   titleValidationMiddleware,
   authorValidationMiddleware,
   minAgeRestrictionMiddleware,
