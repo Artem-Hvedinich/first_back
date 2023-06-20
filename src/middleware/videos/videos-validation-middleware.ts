@@ -1,67 +1,23 @@
-import { NextFunction, Request, Response } from "express";
-import { availableResolutionsType } from "../../router/videos/videos-router";
-
-
-type errorMessageType = {
-  message: string
-  field: string
-}
-
-let errorsMessages: errorMessageType[] = [];
-const addErrorsMessages = (field: string) => {
-  errorsMessages.push(
-    {
-      message: "string",
-      field
-    });
-};
-
-function isIsoDate(str: string) {
-  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
-  const d = new Date(str);
-  return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === str; // valid date
-}
+import { availableResolutionsType } from "../../repository/videos/videos-repository";
+import { body } from "express-validator";
 
 const availableResolutionsTrueArr: string[] = ["P144", "P240", "P360", "P480", "P720", "P1080", "P1440", "P2160"];
 
-export const errorCheckingMiddleware = (req: Request, res: Response, next: NextFunction) =>
-  errorsMessages.length > 0 ? res.status(400).send({ errorsMessages }) : next();
+export const videoValidate = {
+  title: body("title").trim().exists({ checkFalsy: true }).isLength({
+    min: 0,
+    max: 40
+  }).withMessage("Title max length should be 40 symbols"),
 
-export const addNewErrorMessageMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  errorsMessages = [];
-  next();
-};
-export const titleValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const title = req.body.title;
-  if (!title || title.trim().length > 40) addErrorsMessages("title");
-  next();
-};
-
-export const authorValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const author = req.body.author;
-  if (!author || author.trim().length > 20) addErrorsMessages("author");
-  next();
-};
-export const checkedAvailableResolutionsMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const availableResolutions = req.body.availableResolutions;
-  if (!availableResolutions || availableResolutions.length < 1 ||
-    availableResolutions.filter((x: availableResolutionsType) => availableResolutionsTrueArr.indexOf(x) === -1).length) addErrorsMessages("availableResolutions");
-  next();
-};
-
-export const minAgeRestrictionMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const minAgeRestriction = req.body.minAgeRestriction;
-  if (!minAgeRestriction || +minAgeRestriction < 1 || +minAgeRestriction > 18) addErrorsMessages("minAgeRestriction");
-  next();
-};
-
-export const publicationDateMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const publicationDate = req.body.publicationDate;
-  if (!isIsoDate(publicationDate)) addErrorsMessages("publicationDate");
-  next();
-};
-export const canBeDownloadedMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const canBeDownloaded = req.body.canBeDownloaded;
-  if (canBeDownloaded !== true && canBeDownloaded !== false) addErrorsMessages("canBeDownloaded");
-  next();
+  author: body("author").trim().exists({ checkFalsy: true }).isLength({
+    min: 0,
+    max: 20
+  }).withMessage("Author max length should be 20 symbols"),
+  availableResolutions: body("availableResolutions").isArray({ min: 1 })
+    .custom(value => !value.filter((x: availableResolutionsType) => availableResolutionsTrueArr.indexOf(<string>x) === -1).length)
+    .withMessage(`AvailableResolutions type: Array<${availableResolutionsTrueArr}>`),
+  minAgeRestriction: body("minAgeRestriction").isFloat({ min: 1, max: 18 }).optional({ nullable: true })
+    .withMessage("minAgeRestriction length should be from 1 to 18"),
+  publicationDate: body("publicationDate").isISO8601().withMessage("Publication Date format: 'yyyy-mm-dd hh:mm:ss.mil'"),
+  canBeDownloaded: body("canBeDownloaded").isBoolean().withMessage("canBeDownloaded should be true|false")
 };

@@ -4,6 +4,7 @@ import { runDB } from "./db";
 import bodyParser from "body-parser";
 import { videosRouter } from "./router/videos/videos-router";
 import { videosRepository } from "./repository/videos/videos-repository";
+import { blogsRouter } from "./router/blogs/blogs-router";
 
 export const app = express();
 const port = process.env.PORT || "8080";
@@ -21,6 +22,7 @@ app.use((_req, res, next) => {
 app.get("/", (req: Request, res: Response) => res.send("First Back"));
 app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
+app.use("/blogs", blogsRouter);
 app.delete("/testing/all-data", async (req: Request, res: Response) => {
   const isRemove = await videosRepository.removeAllVideos();
   isRemove && res.send(204);

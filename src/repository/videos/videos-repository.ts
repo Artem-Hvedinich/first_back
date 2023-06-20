@@ -1,5 +1,14 @@
-import { availableResolutionsType, VideoType } from "../../router/videos/videos-router";
-
+export type availableResolutionsType = "P144" | "P240" | "P360" | "P480" | "P720" | "P1080" | "P1440" | "P2160";
+export type VideoType = {
+  id: number,
+  title: string,
+  author: string,
+  canBeDownloaded: boolean,
+  minAgeRestriction: null | number,
+  createdAt: string
+  publicationDate: string
+  availableResolutions: availableResolutionsType[]
+}
 type updateData = {
   title: string,
   author: string,

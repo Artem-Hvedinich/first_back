@@ -1,26 +1,8 @@
 import { Request, Response, Router } from "express";
 import { videosRepository } from "../../repository/videos/videos-repository";
-import {
-  addNewErrorMessageMiddleware,
-  authorValidationMiddleware, canBeDownloadedMiddleware,
-  checkedAvailableResolutionsMiddleware, errorCheckingMiddleware,
-  minAgeRestrictionMiddleware,
-  publicationDateMiddleware,
-  titleValidationMiddleware
-} from "../../middleware/videos/videos-validation-middleware";
+import { videoValidate } from "../../middleware/videos/videos-validation-middleware";
+import { inputValidationMiddleware } from "../../middleware/input-validation-middleware";
 
-export type availableResolutionsType = "P144" | "P240" | "P360" | "P480" | "P720" | "P1080" | "P1440" | "P2160";
-
-export type VideoType = {
-  id: number,
-  title: string,
-  author: string,
-  canBeDownloaded: boolean,
-  minAgeRestriction: null | number,
-  createdAt: string
-  publicationDate: string
-  availableResolutions: availableResolutionsType[]
-}
 export const videosRouter = Router();
 
 videosRouter.get("/", async (req: Request, res: Response) => {
@@ -28,15 +10,15 @@ videosRouter.get("/", async (req: Request, res: Response) => {
   res.status(200).send(videos);
 });
 videosRouter.post("/",
-  addNewErrorMessageMiddleware,
-  titleValidationMiddleware,
-  authorValidationMiddleware,
-  checkedAvailableResolutionsMiddleware,
-  errorCheckingMiddleware,
+  videoValidate.title,
+  videoValidate.author,
+  videoValidate.availableResolutions,
+  inputValidationMiddleware,
   async (req: Request, res: Response) => {
     const newVideo = await videosRepository.createVideos(req.body.title, req.body.author, req.body.availableResolutions);
     res.status(201).send(newVideo);
-  });
+  }
+);
 videosRouter.get("/:id",
   async (req: Request, res: Response) => {
     const video = await videosRepository.findVideos(+req.params.id);
@@ -47,14 +29,12 @@ videosRouter.get("/:id",
     res.status(200).send(video);
   });
 videosRouter.put("/:id",
-  addNewErrorMessageMiddleware,
-  titleValidationMiddleware,
-  authorValidationMiddleware,
-  minAgeRestrictionMiddleware,
-  publicationDateMiddleware,
-  checkedAvailableResolutionsMiddleware,
-  canBeDownloadedMiddleware,
-  errorCheckingMiddleware,
+  videoValidate.title,
+  videoValidate.author,
+  videoValidate.availableResolutions,
+  videoValidate.minAgeRestriction,
+  videoValidate.publicationDate,
+  inputValidationMiddleware,
   async (req: Request, res: Response) => {
     const video = await videosRepository.findVideos(+req.params.id);
     if (!video) {
