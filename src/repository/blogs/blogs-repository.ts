@@ -40,6 +40,10 @@ export const blogsRepository = {
   removeOneBlog: async (id: string): Promise<boolean> => {
     blogsDB = blogsDB.filter(f => f.id !== id);
     return await true;
+  },
+  removeAllBlogs: async (): Promise<boolean> => {
+    blogsDB = [];
+    return await true;
   }
 };
 
