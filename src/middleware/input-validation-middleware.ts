@@ -14,4 +14,10 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
       })
     : next();
 };
+export const authValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+  !errors.isEmpty()
+    ? res.send(401)
+    : next();
+};
 
