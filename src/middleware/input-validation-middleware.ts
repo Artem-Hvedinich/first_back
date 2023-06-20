@@ -21,3 +21,10 @@ export const authValidationMiddleware = (req: Request, res: Response, next: Next
     : next();
 };
 
+export const checkedIdValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req);
+  !errors.isEmpty()
+    ? res.send(404)
+    : next();
+};
+

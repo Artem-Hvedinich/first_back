@@ -1,4 +1,6 @@
-type BlogType = {
+type updateData = {}
+
+export type BlogType = {
   id: string,
   name: string,
   description: string,
@@ -30,26 +32,14 @@ export const blogsRepository = {
     };
     blogsDB.push(newBlogs);
     return await newBlogs;
+  },
+  updateBlog: async (data: updateData, id: string): Promise<boolean> => {
+    blogsDB = blogsDB.map((m): BlogType => m.id === id ? <BlogType>({}) : m);
+    return await true;
+  },
+  removeOneBlog: async (id: string): Promise<boolean> => {
+    blogsDB = blogsDB.filter(f => f.id !== id);
+    return await true;
   }
-  // updateVideos: async (data: updateData, id: number): Promise<boolean> => {
-  //   videosDB = videosDB.map((m): VideoType => m.id === id ? <VideoType>({
-  //     ...m,
-  //     title: data.title,
-  //     author: data.author,
-  //     availableResolutions: [...data.availableResolutions],
-  //     canBeDownloaded: data.canBeDownloaded,
-  //     minAgeRestriction: data.minAgeRestriction,
-  //     publicationDate: data.publicationDate
-  //   }) : m);
-  //   return await true;
-  // },
-  // removeOneVideo: async (id: number): Promise<boolean> => {
-  //   videosDB = videosDB.filter(f => f.id !== id);
-  //   return await true;
-  // },
-  // removeAllVideos: async (): Promise<boolean> => {
-  //   videosDB = [];
-  //   return await true;
-  // }
 };
 

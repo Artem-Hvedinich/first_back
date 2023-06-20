@@ -6,4 +6,5 @@ export const blogValidate = {
   websiteUrlLength: body("websiteUrl").trim().notEmpty().isLength({ max: 100 }).withMessage("Website url is too long"),
   websiteUrl: body("websiteUrl").trim().custom(v =>
     /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/.test(v)).withMessage("website url does not match the template")
+
 };
