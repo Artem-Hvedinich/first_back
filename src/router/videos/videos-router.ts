@@ -34,6 +34,7 @@ videosRouter.put("/:id",
   videoValidate.availableResolutions,
   videoValidate.minAgeRestriction,
   videoValidate.publicationDate,
+  videoValidate.canBeDownloaded,
   inputValidationMiddleware,
   async (req: Request, res: Response) => {
     const video = await videosRepository.findVideos(+req.params.id);
