@@ -8,6 +8,7 @@ import {
 } from "../../middleware/input-validation-middleware";
 import { blogValidate } from "../../middleware/blogs/blogs-validation-middleware";
 import { universalValidate } from "../../middleware/universal/universal-validation-middleware";
+import { header } from "express-validator";
 
 export const blogsRouter = Router();
 
@@ -24,6 +25,7 @@ blogsRouter.post("/",
   blogValidate.websiteUrl,
   blogValidate.websiteUrlLength,
   inputValidationMiddleware,
+  header("authorization").custom(v => console.log(v)),
   async (req: Request, res: Response) => {
     const blog = await blogsRepository.createBlog(req.body.name, req.body.description, req.body.websiteUrl);
     res.status(201).send(blog);
