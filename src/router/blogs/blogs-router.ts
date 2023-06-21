@@ -25,7 +25,6 @@ blogsRouter.post("/",
   blogValidate.websiteUrl,
   blogValidate.websiteUrlLength,
   inputValidationMiddleware,
-  header("authorization").custom(v => console.log(v)),
   async (req: Request, res: Response) => {
     const blog = await blogsRepository.createBlog(req.body.name, req.body.description, req.body.websiteUrl);
     res.status(201).send(blog);
