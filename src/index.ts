@@ -22,7 +22,7 @@ app.use((_req, res, next) => {
 app.get("/", (req: Request, res: Response) => res.send("First Back"));
 app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
-app.use("/api/blogs", blogsRouter);
+app.use("/blogs", blogsRouter);
 app.delete("/testing/all-data", async (req: Request, res: Response) => {
   const isRemoveVideos = await videosRepository.removeAllVideos();
   const isRemoveBlogs = await blogsRepository.removeAllBlogs();
