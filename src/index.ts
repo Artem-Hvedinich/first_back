@@ -19,7 +19,6 @@ app.use((_req, res, next) => {
   next();
 });
 
-
 app.get("/", (req: Request, res: Response) => res.send("First Back"));
 app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
