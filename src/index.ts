@@ -22,11 +22,11 @@ app.use((_req, res, next) => {
 app.get("/", (req: Request, res: Response) => res.send("First Back"));
 app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
-app.use("/blogs", blogsRouter);
+app.use("/api/blogs", blogsRouter);
 app.delete("/testing/all-data", async (req: Request, res: Response) => {
   const isRemoveVideos = await videosRepository.removeAllVideos();
   const isRemoveBlogs = await blogsRepository.removeAllBlogs();
-  isRemoveVideos && isRemoveBlogs && res.send(204);
+  isRemoveVideos && isRemoveBlogs && res.status(204);
 });
 const startApp = async () => {
   // await runDB();
