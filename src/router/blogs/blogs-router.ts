@@ -8,7 +8,6 @@ import {
 } from "../../middleware/input-validation-middleware";
 import { blogValidate } from "../../middleware/blogs/blogs-validation-middleware";
 import { universalValidate } from "../../middleware/universal/universal-validation-middleware";
-import { header } from "express-validator";
 
 export const blogsRouter = Router();
 
