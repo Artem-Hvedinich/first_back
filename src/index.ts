@@ -24,9 +24,9 @@ app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
 app.use("/blogs", blogsRouter);
 app.delete("/testing/all-data", async (req: Request, res: Response) => {
-  // const isRemoveVideos = await videosRepository.removeAllVideos();
+  const isRemoveVideos = await videosRepository.removeAllVideos();
   const isRemoveBlogs = await blogsRepository.removeAllBlogs();
-  isRemoveBlogs && res.status(204);
+  isRemoveBlogs && isRemoveVideos && res.status(204);
 });
 const startApp = async () => {
   // await runDB();
