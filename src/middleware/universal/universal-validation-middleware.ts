@@ -5,5 +5,6 @@ import { postsDB } from "../../repository/posts/posts-repository";
 export const universalValidate = {
   checkPostParamId: param("id").custom(v => postsDB.filter(el => el.id === v).length > 0),
   checkBlogParamId: param("id").custom(v => blogsDB.filter(el => el.id === v).length > 0),
-  checkBlogBodyId: body("blogId").custom(v => blogsDB.filter(el => el.id === v).length > 0)
+  checkBlogBodyId: body("blogId").custom(v => blogsDB.filter(el => el.id === v).length > 0),
+  checkUpdateBlogBodyId: body("blogId").custom(v => v ? blogsDB.filter(el => el.id === v).length > 0 : true)
 };
