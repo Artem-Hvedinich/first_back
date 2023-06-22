@@ -23,9 +23,9 @@ postsRouter.post("/",
   postsValidate.title,
   postsValidate.shortDescription,
   postsValidate.content,
-  inputValidationMiddleware,
   universalValidate.bodyId<BlogType>(blogsDB, "blogId"),
-  checkedIdValidationMiddleware,
+  inputValidationMiddleware,
+  // checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const post = await postsRepository.createPost(req.body);
     res.status(201).send(post);
