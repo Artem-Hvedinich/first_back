@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { productsRepository } from "../repository/products-in-memory-repository";
+import { productsRepository } from "../repository/products/products-db-repository";
 import { body } from "express-validator";
 import { inputValidationMiddleware } from "../middleware/input-validation-middleware";
 
@@ -11,10 +11,9 @@ const titleValidation = body("title").trim().isLength({
 }).withMessage("Title length should be from 3 to 10 symbols ");
 
 productsRouter.get("/", async (req: Request, res: Response) => {
-    const products = await productsRepository.getProducts();
-    res.send(products);
-  }
-);
+  const products = await productsRepository.getProducts();
+  res.send(products);
+});
 productsRouter.post("/",
   titleValidation,
   inputValidationMiddleware,

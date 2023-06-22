@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import { productsRouter } from "./router/products-router";
 import { runDB } from "./db";
-import bodyParser from "body-parser";
 import { videosRouter } from "./router/videos/videos-router";
 import { videosRepository } from "./repository/videos/videos-repository";
 import { blogsRouter } from "./router/blogs/blogs-router";
@@ -10,10 +9,7 @@ import { postsRouter } from "./router/posts/posts-router";
 
 export const app = express();
 const port = process.env.PORT || "8080";
-
-app.use(bodyParser.json());
-const parserMiddleware = express.json();
-app.use(parserMiddleware);
+app.use(express.json());
 app.use((_req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "*");
@@ -31,7 +27,7 @@ app.delete("/testing/all-data", async (req: Request, res: Response) => {
   isRemoveBlogs && isRemoveVideos && res.status(204).send("All data is deleted");
 });
 const startApp = async () => {
-  // await runDB();
+  await runDB();
   app.listen(port, () => {
     console.log(`🌐 Example app listening on port ${port}`);
   });
