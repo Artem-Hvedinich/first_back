@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { blogsDB, blogsRepository, BlogType } from "../../repository/blogs/blogs-repository";
+import { blogsRepository } from "../../repository/blogs/blogs-repository";
 import { authValidate } from "../../middleware/auth/auth-validation-middleware";
 import {
   authValidationMiddleware,
@@ -46,7 +46,7 @@ blogsRouter.put("/:id",
   blogValidate.websiteUrl,
   blogValidate.websiteUrlLength,
   inputValidationMiddleware,
-  universalValidate.blogId,
+  universalValidate.checkBlogParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     console.log(req.params.id);
@@ -56,7 +56,7 @@ blogsRouter.put("/:id",
 blogsRouter.delete("/:id",
   authValidate.authorization,
   authValidationMiddleware,
-  universalValidate.blogId,
+  universalValidate.checkBlogParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isRemove = blogsRepository.removeOneBlog(req.params.id);

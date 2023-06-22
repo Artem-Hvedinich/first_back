@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { postsDB, postsRepository, PostType } from "../../repository/posts/posts-repository";
+import { postsRepository } from "../../repository/posts/posts-repository";
 import { postsValidate } from "../../middleware/posts/posts-validation-middleware";
 import { universalValidate } from "../../middleware/universal/universal-validation-middleware";
 import { authValidate } from "../../middleware/auth/auth-validation-middleware";
@@ -8,7 +8,6 @@ import {
   checkedIdValidationMiddleware,
   inputValidationMiddleware
 } from "../../middleware/input-validation-middleware";
-import { blogsDB, BlogType } from "../../repository/blogs/blogs-repository";
 
 export const postsRouter = Router();
 
@@ -23,7 +22,7 @@ postsRouter.post("/",
   postsValidate.title,
   postsValidate.shortDescription,
   postsValidate.content,
-  universalValidate.bodyId<BlogType>(blogsDB, "blogId"),
+  universalValidate.checkBlogBodyId,
   inputValidationMiddleware,
   // checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
@@ -46,9 +45,9 @@ postsRouter.put("/:id",
   postsValidate.title,
   postsValidate.shortDescription,
   postsValidate.content,
-  universalValidate.bodyId<BlogType>(blogsDB, "blogId"),
+  universalValidate.checkBlogBodyId,
   inputValidationMiddleware,
-  universalValidate.paramId<PostType>(postsDB),
+  universalValidate.checkPostParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isUpdate = await postsRepository.updatePost(req.body, req.params.id);
@@ -57,7 +56,7 @@ postsRouter.put("/:id",
 postsRouter.delete("/:id",
   authValidate.authorization,
   authValidationMiddleware,
-  universalValidate.paramId<PostType>(postsDB),
+  universalValidate.checkPostParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isRemove = await postsRepository.removeOnePost(req.params.id);
