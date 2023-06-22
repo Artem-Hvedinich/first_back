@@ -38,6 +38,7 @@ export const blogsRepository = {
     return await newBlogs;
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
+    console.log("in updateBlog");
     blogsDB = blogsDB.map((m): BlogType => m.id === id ? { ...m, name, description, websiteUrl } : m);
     return await true;
   },

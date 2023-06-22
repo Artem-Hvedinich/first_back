@@ -50,7 +50,7 @@ blogsRouter.put("/:id",
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isUpdate = blogsRepository.updateBlog(req.body, req.params.id);
-    isUpdate ? res.send(204) : res.sendStatus(404);
+    isUpdate ? res.sendStatus(204) : res.sendStatus(404);
   });
 blogsRouter.delete("/:id",
   authValidate.authorization,
@@ -59,5 +59,5 @@ blogsRouter.delete("/:id",
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isRemove = blogsRepository.removeOneBlog(req.params.id);
-    isRemove ? res.send(204) : res.sendStatus(404);
+    isRemove ? res.sendStatus(204) : res.sendStatus(404);
   });

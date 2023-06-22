@@ -53,5 +53,5 @@ videosRouter.delete("/:id", async (req: Request, res: Response) => {
     return;
   }
   const isRemove = await videosRepository.removeOneVideo(+req.params.id);
-  isRemove ? res.send(204) : res.sendStatus(404);
+  isRemove ? res.sendStatus(204) : res.sendStatus(404);
 });
