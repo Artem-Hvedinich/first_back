@@ -12,7 +12,12 @@ export type BlogType = {
 }
 export let blogsDB: BlogType[] = [
   {
-    id: "blogId",
+    id: "blog0",
+    name: "string",
+    description: "string",
+    websiteUrl: "string.com"
+  },{
+    id: "blog1",
     name: "string",
     description: "string",
     websiteUrl: "string.com"

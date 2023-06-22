@@ -23,11 +23,18 @@ export type PostType = {
 }
 export let postsDB: PostType[] = [
   {
-    id: "sadsfdg",
+    id: "post0",
     title: "string",
     shortDescription: "string",
     content: "string",
-    blogId: "string",
+    blogId: "blog0",
+    blogName: "string"
+  }, {
+    id: "post1",
+    title: "string",
+    shortDescription: "string",
+    content: "string",
+    blogId: "blog1",
     blogName: "string"
   }
 ];
@@ -38,7 +45,7 @@ export const postsRepository = {
   createPost: async ({ title, shortDescription, content, blogId }: CreatePostType)
     : Promise<PostType | null> => {
     const newBlogs = <PostType>{
-      id: "posts_id_" + postsDB.length,
+      id: "post" + postsDB.length,
       title,
       shortDescription,
       content,
