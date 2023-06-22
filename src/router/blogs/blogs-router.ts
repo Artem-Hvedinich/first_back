@@ -46,16 +46,17 @@ blogsRouter.put("/:id",
   blogValidate.websiteUrl,
   blogValidate.websiteUrlLength,
   inputValidationMiddleware,
-  universalValidate.paramId<BlogType>(blogsDB),
+  universalValidate.blogId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
+    console.log(req.params.id);
     const isUpdate = blogsRepository.updateBlog(req.body, req.params.id);
     isUpdate ? res.sendStatus(204) : res.sendStatus(404);
   });
 blogsRouter.delete("/:id",
   authValidate.authorization,
   authValidationMiddleware,
-  universalValidate.paramId<BlogType>(blogsDB, ),
+  universalValidate.blogId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isRemove = blogsRepository.removeOneBlog(req.params.id);
