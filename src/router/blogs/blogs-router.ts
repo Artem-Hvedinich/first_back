@@ -46,7 +46,7 @@ blogsRouter.put("/:id",
   blogValidate.websiteUrl,
   blogValidate.websiteUrlLength,
   inputValidationMiddleware,
-  universalValidate.paramId<BlogType>(blogsDB, "id"),
+  universalValidate.paramId<BlogType>(blogsDB),
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isUpdate = blogsRepository.updateBlog(req.body, req.params.id);
@@ -55,7 +55,7 @@ blogsRouter.put("/:id",
 blogsRouter.delete("/:id",
   authValidate.authorization,
   authValidationMiddleware,
-  universalValidate.paramId<BlogType>(blogsDB, "id"),
+  universalValidate.paramId<BlogType>(blogsDB, ),
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isRemove = blogsRepository.removeOneBlog(req.params.id);

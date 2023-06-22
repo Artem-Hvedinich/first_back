@@ -48,7 +48,7 @@ postsRouter.put("/:id",
   postsValidate.content,
   universalValidate.bodyId<BlogType>(blogsDB, "blogId"),
   inputValidationMiddleware,
-  universalValidate.paramId<PostType>(postsDB, "id"),
+  universalValidate.paramId<PostType>(postsDB),
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isUpdate = await postsRepository.updatePost(req.body, req.params.id);
@@ -57,7 +57,7 @@ postsRouter.put("/:id",
 postsRouter.delete("/:id",
   authValidate.authorization,
   authValidationMiddleware,
-  universalValidate.paramId<PostType>(postsDB, "id"),
+  universalValidate.paramId<PostType>(postsDB),
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const isRemove = await postsRepository.removeOnePost(req.params.id);
