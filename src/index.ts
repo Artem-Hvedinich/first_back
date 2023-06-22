@@ -6,6 +6,7 @@ import { videosRouter } from "./router/videos/videos-router";
 import { videosRepository } from "./repository/videos/videos-repository";
 import { blogsRouter } from "./router/blogs/blogs-router";
 import { blogsRepository } from "./repository/blogs/blogs-repository";
+import { postsRouter } from "./router/posts/posts-router";
 
 export const app = express();
 const port = process.env.PORT || "8080";
@@ -23,10 +24,11 @@ app.get("/", (req: Request, res: Response) => res.send("First Back"));
 app.use("/product", productsRouter);
 app.use("/videos", videosRouter);
 app.use("/blogs", blogsRouter);
+app.use("/posts", postsRouter);
 app.delete("/testing/all-data", async (req: Request, res: Response) => {
   const isRemoveVideos = await videosRepository.removeAllVideos();
   const isRemoveBlogs = await blogsRepository.removeAllBlogs();
-  isRemoveBlogs && isRemoveVideos && res.status(204);
+  isRemoveBlogs && isRemoveVideos && res.status(204).send("All data is deleted");
 });
 const startApp = async () => {
   // await runDB();

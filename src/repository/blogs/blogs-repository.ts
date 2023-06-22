@@ -1,4 +1,8 @@
-type updateData = {}
+type updateData = {
+  name: string,
+  description: string,
+  websiteUrl: string
+}
 
 export type BlogType = {
   id: string,
@@ -8,7 +12,7 @@ export type BlogType = {
 }
 export let blogsDB: BlogType[] = [
   {
-    id: "sadmasd",
+    id: "blogId",
     name: "string",
     description: "string",
     websiteUrl: "string.com"
@@ -33,8 +37,8 @@ export const blogsRepository = {
     blogsDB.push(newBlogs);
     return await newBlogs;
   },
-  updateBlog: async (data: updateData, id: string): Promise<boolean> => {
-    blogsDB = blogsDB.map((m): BlogType => m.id === id ? <BlogType>({}) : m);
+  updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
+    blogsDB = blogsDB.map((m): BlogType => m.id === id ? { ...m, name, description, websiteUrl } : m);
     return await true;
   },
   removeOneBlog: async (id: string): Promise<boolean> => {

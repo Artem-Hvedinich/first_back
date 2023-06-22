@@ -16,9 +16,10 @@ export const inputValidationMiddleware = (req: Request, res: Response, next: Nex
 };
 export const authValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
-  !errors.isEmpty()
-    ? res.send(401)
-    : next();
+  if (!errors.isEmpty()) {
+    res.send(401);
+    return;
+  } else next();
 };
 
 export const checkedIdValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {

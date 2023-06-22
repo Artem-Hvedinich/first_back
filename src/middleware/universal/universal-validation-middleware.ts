@@ -1,5 +1,6 @@
-import { param } from "express-validator";
+import { body, param } from "express-validator";
 
 export const universalValidate = {
-  id: <T>(BD: Array<T>) => param("id").custom(v => BD.filter(el => el.id === v).length > 0)
-};
+    paramId: <T>(BD: Array<T>, paramName: string) => param(paramName).custom(v => BD.filter(el => el.id === v).length > 0),
+    bodyId: <T>(BD: Array<T>, paramName: string) => body(paramName).custom(v => BD.filter(el => el.id === v).length > 0)
+  };
