@@ -35,6 +35,7 @@ export const blogsRepository = {
       websiteUrl
     };
     blogsDB.push(newBlogs);
+    console.log(blogsDB);
     return await newBlogs;
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
