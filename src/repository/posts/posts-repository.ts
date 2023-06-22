@@ -38,7 +38,7 @@ export const postsRepository = {
   createPost: async ({ title, shortDescription, content, blogId }: CreatePostType)
     : Promise<PostType | null> => {
     const newBlogs = <PostType>{
-      id: "blogs_id_" + postsDB.length,
+      id: "posts_id_" + postsDB.length,
       title,
       shortDescription,
       content,
