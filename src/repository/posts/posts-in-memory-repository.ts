@@ -4,12 +4,12 @@ import { ObjectId } from "mongodb";
 export let postsDB: PostType[] = [];
 export const postsRepository = {
   findPost: async (id?: string): Promise<PostType[] | PostType | undefined> =>
-    id ? postsDB.find(f => f._id === new ObjectId(id)) : postsDB,
+    id ? postsDB.find(f => f.id === id) : postsDB,
 
   createPost: async ({ title, shortDescription, content, blogId }: CreatePostType)
     : Promise<PostType | null> => {
     const newBlogs = <PostType>{
-      _id: new ObjectId(),
+      id: "post" + new Date(),
       title,
       shortDescription,
       content,
@@ -21,14 +21,14 @@ export const postsRepository = {
   },
   updatePost: async ({ title, shortDescription, content, blogId }: UpdatePostType, id: string): Promise<boolean> => {
     blogId
-      ? postsDB = postsDB.map((m): PostType => m._id === new ObjectId(id) ? {
+      ? postsDB = postsDB.map((m): PostType => m.id === id ? {
         ...m,
         title,
         shortDescription,
         content,
         blogId
       } : m)
-      : postsDB = postsDB.map((m): PostType => m._id === new ObjectId(id) ? {
+      : postsDB = postsDB.map((m): PostType => m.id === id ? {
         ...m,
         title,
         shortDescription,
@@ -37,7 +37,8 @@ export const postsRepository = {
     return await true;
   },
   removeOnePost: async (id: string): Promise<boolean> => {
-    postsDB = postsDB.filter(f => f._id !== new ObjectId(id));
+    postsDB = postsDB.filter(f => f.id !== id);
+    // postsDB = postsDB.filter(f => f._id !== new ObjectId(id));
     return await true;
   },
   removeAllPosts: async (): Promise<boolean> => {

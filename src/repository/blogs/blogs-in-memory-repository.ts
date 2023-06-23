@@ -7,14 +7,14 @@ type updateData = {
   websiteUrl: string
 }
 export let blogsDB: BlogType[] = [{
-  _id: new ObjectId("blog0"),
+  id: "blog" + new Date(),
   name: "string",
   description: "string",
   websiteUrl: "string.com",
   createdAt: new Date,
   isMembership: false
 }, {
-  _id: new ObjectId("blog1"),
+  id: "blog" + new Date(),
   name: "string",
   description: "string",
   websiteUrl: "string.com",
@@ -23,7 +23,8 @@ export let blogsDB: BlogType[] = [{
 }];
 export const blogsRepository = {
   findBlog: async (id?: string): Promise<BlogType[] | BlogType | undefined> =>
-    id ? blogsDB.find(f => f._id === new ObjectId(id)) : blogsDB,
+    // id ? blogsDB.find(f => f._id === new ObjectId(id)) : blogsDB,
+    id ? blogsDB.find(f => f.id === id) : blogsDB,
 
   createBlog: async (
     name: string,
@@ -32,7 +33,7 @@ export const blogsRepository = {
   )
     : Promise<BlogType | null> => {
     const newBlogs = <BlogType>{
-      id: "blog" + blogsDB.length,
+      id: "blog_" + new ObjectId(),
       name,
       description,
       websiteUrl,
@@ -43,12 +44,14 @@ export const blogsRepository = {
     return await newBlogs;
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
-    console.log("in updateBlog", id);
-    blogsDB = blogsDB.map((m): BlogType => m._id === new ObjectId(id) ? { ...m, name, description, websiteUrl } : m);
+    // console.log("in updateBlog", id);
+    // blogsDB = blogsDB.map((m): BlogType => m._id === new ObjectId(id) ? { ...m, name, description, websiteUrl } : m);
+    blogsDB = blogsDB.map((m): BlogType => m.id === id ? { ...m, name, description, websiteUrl } : m);
     return await true;
   },
   removeOneBlog: async (id: string): Promise<boolean> => {
-    blogsDB = blogsDB.filter(f => f._id !== new ObjectId(id));
+    // blogsDB = blogsDB.filter(f => f._id !== new ObjectId(id));
+    blogsDB = blogsDB.filter(f => f.id !== id);
     return await true;
   },
   removeAllBlogs: async (): Promise<boolean> => {

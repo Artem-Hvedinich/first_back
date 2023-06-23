@@ -2,11 +2,12 @@ import { client } from "./db";
 import { ObjectId } from "mongodb";
 
 export type PostType = {
-  _id?: ObjectId,
+  id: string,
+  // _id?: ObjectId,
   title: string,
   shortDescription: string,
   content: string,
-  blogId: ObjectId,
+  blogId: string,
   blogName: string
   createdAt: Date
 }
@@ -14,14 +15,14 @@ export type UpdatePostType = {
   title: string,
   shortDescription: string,
   content: string,
-  blogId: ObjectId,
+  blogId: string,
 }
 
 export type CreatePostType = {
   title: string,
   shortDescription: string,
   content: string,
-  blogId: ObjectId,
+  blogId: string,
   blogName: string
   createdAt: Date
 }

@@ -9,6 +9,7 @@ export const postsRepository = {
   createPost: async ({ title, shortDescription, content, blogId }: PostType)
     : Promise<PostType | null> => {
     const newPost = {
+      id: "post" + new Date(),
       title,
       shortDescription,
       content,
@@ -17,25 +18,25 @@ export const postsRepository = {
       createdAt: new Date()
     };
     const result = await postsCollections.insertOne(newPost);
-    return { ...newPost, _id: result.insertedId };
+    return newPost;
   },
   updatePost: async ({ title, shortDescription, content, blogId }: UpdatePostType, id: string): Promise<boolean> => {
-    const _id = new ObjectId(id);
+    // const _id = new ObjectId(id);
     let result;
     blogId ?
-      result = await postsCollections.updateOne({ _id }, {
+      result = await postsCollections.updateOne({ id }, {
         $set: { title, shortDescription, content, blogId },
         $setOnInsert: { createdAt: new Date() }
       })
-      : result = await postsCollections.updateOne({ _id }, {
+      : result = await postsCollections.updateOne({ id }, {
         $set: { title, shortDescription, content },
         $setOnInsert: { createdAt: new Date() }
       });
     return result.modifiedCount === 1;
   },
   removeOnePost: async (id: string): Promise<boolean> => {
-    const _id = new ObjectId(id);
-    const result = await postsCollections.deleteOne({ _id });
+    // const _id = new ObjectId(id);
+    const result = await postsCollections.deleteOne({ id });
     return result.deletedCount === 1;
   },
   removeAllPosts: async (): Promise<boolean> => {
