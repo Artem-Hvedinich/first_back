@@ -12,14 +12,14 @@ export let blogsDB: BlogType[] = [{
   description: "string",
   websiteUrl: "string.com",
   createdAt: new Date,
-  isMembership: true
+  isMembership: false
 }, {
   _id: new ObjectId("blog1"),
   name: "string",
   description: "string",
   websiteUrl: "string.com",
   createdAt: new Date,
-  isMembership: true
+  isMembership: false
 }];
 export const blogsRepository = {
   findBlog: async (id?: string): Promise<BlogType[] | BlogType | undefined> =>
@@ -37,7 +37,7 @@ export const blogsRepository = {
       description,
       websiteUrl,
       createdAt: new Date,
-      isMembership: true
+      isMembership: false
     };
     blogsDB.push(newBlogs);
     return await newBlogs;
