@@ -23,10 +23,10 @@ app.use("/videos", videosRouter);
 app.use("/blogs", blogsRouter);
 app.use("/posts", postsRouter);
 app.delete("/testing/all-data", async (req: Request, res: Response) => {
-  const isRemoveVideos = await videosRepository.removeAllVideos();
+  // const isRemoveVideos = await videosRepository.removeAllVideos();
   const isRemoveBlogs = await blogsRepository.removeAllBlogs();
   const isRemovePosts = await postsRepository.removeAllPosts();
-  isRemoveBlogs && isRemoveVideos && isRemovePosts && res.status(204).send("All data is deleted");
+  isRemoveBlogs && isRemovePosts ? res.status(204).send("All data is deleted") : res.sendStatus(404);
 });
 const startApp = async () => {
   await runDB();
