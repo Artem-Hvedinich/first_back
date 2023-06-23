@@ -3,30 +3,33 @@ import { validationResult } from "express-validator";
 
 export const inputValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
-  !errors.isEmpty()
-    ? res.status(400).json(
+  if (!errors.isEmpty())
+    res.status(400).json(
       {
-        errorsMessages: errors.array({ onlyFirstError: true }).map(e => ({
-            message: e.msg,
-            field: e.path
-          })
-        )
-      })
-    : next();
+        errorsMessages: errors.array({ onlyFirstError: true })
+          .map((e: any) => ({
+              message: e.msg,
+              field: e.path
+            })
+          )
+      });
+  next();
 };
 export const authValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.sendStatus(401);
     return;
-  } else next();
+  }
+  next();
 };
 
 export const checkedIdValidationMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
-  console.log(errors);
-  !errors.isEmpty()
-    ? res.sendStatus(404)
-    : next();
+  if (!errors.isEmpty()) {
+    res.sendStatus(404);
+    return;
+  }
+  next();
 };
 

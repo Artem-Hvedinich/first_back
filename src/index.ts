@@ -4,7 +4,7 @@ import { runDB } from "./db";
 import { videosRouter } from "./router/videos/videos-router";
 import { videosRepository } from "./repository/videos/videos-repository";
 import { blogsRouter } from "./router/blogs/blogs-router";
-import { blogsRepository } from "./repository/blogs/blogs-repository";
+import { blogsRepository } from "./repository/blogs/blogs-db-repository";
 import { postsRouter } from "./router/posts/posts-router";
 
 export const app = express();

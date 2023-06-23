@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { blogsRepository } from "../../repository/blogs/blogs-repository";
+import { blogsRepository } from "../../repository/blogs/blogs-db-repository";
 import { authValidate } from "../../middleware/auth/auth-validation-middleware";
 import {
   authValidationMiddleware,
@@ -29,14 +29,17 @@ blogsRouter.post("/",
     res.status(201).send(blog);
   });
 
-blogsRouter.get("/:id", async (req: Request, res: Response) => {
-  const blog = await blogsRepository.findBlog(req.params.id);
-  if (!blog) {
-    res.sendStatus(404);
-    return;
-  }
-  res.status(200).send(blog);
-});
+blogsRouter.get("/:id",
+  universalValidate.checkBlogParamId,
+  checkedIdValidationMiddleware,
+  async (req: Request, res: Response) => {
+    const blog = await blogsRepository.findBlog(req.params.id);
+    if (!blog) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).send(blog);
+  });
 
 blogsRouter.put("/:id",
   authValidate.authorization,
@@ -50,7 +53,7 @@ blogsRouter.put("/:id",
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     console.log(req.params.id);
-    const isUpdate = blogsRepository.updateBlog(req.body, req.params.id);
+    const isUpdate = await blogsRepository.updateBlog(req.body, req.params.id);
     isUpdate ? res.sendStatus(204) : res.sendStatus(404);
   });
 blogsRouter.delete("/:id",
@@ -59,6 +62,6 @@ blogsRouter.delete("/:id",
   universalValidate.checkBlogParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
-    const isRemove = blogsRepository.removeOneBlog(req.params.id);
+    const isRemove = await blogsRepository.removeOneBlog(req.params.id);
     isRemove ? res.sendStatus(204) : res.sendStatus(404);
   });
