@@ -3,7 +3,8 @@ import { ObjectId } from "mongodb";
 
 export const postsRepository = {
   findPost: async (id?: string): Promise<PostType[] | PostType | undefined> => {
-    if (id) return await postsCollections.findOne({ _id: new ObjectId(id) }) as PostType;
+    // if (id) return await postsCollections.findOne({ _id: new ObjectId(id) }) as PostType;
+    if (id) return await postsCollections.findOne({ id }) as PostType;
     return await postsCollections.find().toArray();
   },
   createPost: async ({ title, shortDescription, content, blogId }: PostType)
