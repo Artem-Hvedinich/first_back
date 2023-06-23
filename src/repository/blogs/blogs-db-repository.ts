@@ -32,7 +32,6 @@ export const blogsRepository = {
       isMembership: false
     };
     await blogsCollections.insertOne(newBlog);
-
     return deleteObjectId<BlogType>(newBlog);
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {

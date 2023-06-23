@@ -8,3 +8,4 @@ export const blogValidate = {
     /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/.test(v)).withMessage("website url does not match the template")
 
 };
+

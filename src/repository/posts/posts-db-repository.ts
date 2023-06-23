@@ -1,11 +1,15 @@
 import { postsCollections, PostType, UpdatePostType } from "../../DB/postsDB";
-import { ObjectId } from "mongodb";
+import { deleteObjectId } from "../../composeble/utils";
 
 export const postsRepository = {
   findPost: async (id?: string): Promise<PostType[] | PostType | undefined> => {
-    // if (id) return await postsCollections.findOne({ _id: new ObjectId(id) }) as PostType;
-    if (id) return await postsCollections.findOne({ id }) as PostType;
-    return await postsCollections.find().toArray();
+    let result;
+    if (id) {
+      result = await postsCollections.findOne({ id }) as PostType;
+      return deleteObjectId<PostType>(result);
+    }
+    result = await postsCollections.find().toArray();
+    return result.map(m => deleteObjectId<PostType>(m));
   },
   createPost: async ({ title, shortDescription, content, blogId }: PostType)
     : Promise<PostType | null> => {
@@ -18,8 +22,8 @@ export const postsRepository = {
       blogName: "blogName1",
       createdAt: new Date()
     };
-    const result = await postsCollections.insertOne(newPost);
-    return newPost;
+    await postsCollections.insertOne(newPost);
+    return deleteObjectId<PostType>(newPost);
   },
   updatePost: async ({ title, shortDescription, content, blogId }: UpdatePostType, id: string): Promise<boolean> => {
     // const _id = new ObjectId(id);
