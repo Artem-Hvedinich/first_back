@@ -30,6 +30,8 @@ postsRouter.post("/",
     res.status(201).send(post);
   });
 postsRouter.get("/:id",
+  universalValidate.checkPostParamId,
+  checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const post = await postsRepository.findPost(req.params.id);
     console.log(post);
