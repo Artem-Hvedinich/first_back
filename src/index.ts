@@ -26,7 +26,8 @@ app.delete("/testing/all-data", async (req: Request, res: Response) => {
   // const isRemoveVideos = await videosRepository.removeAllVideos();
   const isRemoveBlogs = await blogsRepository.removeAllBlogs();
   const isRemovePosts = await postsRepository.removeAllPosts();
-  isRemoveBlogs && isRemovePosts ? res.status(204).send("All data is deleted") : res.sendStatus(404);
+  console.log(isRemoveBlogs, isRemovePosts);
+  isRemoveBlogs && isRemovePosts ? res.sendStatus(204) : res.sendStatus(404);
 });
 const startApp = async () => {
   await runDB();

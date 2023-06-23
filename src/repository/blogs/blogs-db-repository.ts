@@ -1,5 +1,4 @@
 import { blogsCollections, BlogType } from "../../DB/blogsDB";
-import { ObjectId } from "mongodb";
 import { deleteObjectId } from "../../composeble/utils";
 
 type updateData = {
@@ -48,6 +47,8 @@ export const blogsRepository = {
     return result.deletedCount === 1;
   },
   removeAllBlogs: async (): Promise<boolean> => {
+    const arr = await blogsRepository.findBlog() as BlogType[];
+    if (arr.length === 0) return true;
     const result = await blogsCollections.deleteMany();
     return result.deletedCount !== 0;
   }
