@@ -9,9 +9,8 @@ type updateData = {
 
 export const blogsRepository = {
   findBlog: async (id?: string): Promise<BlogType[] | BlogType> => {
-    if (id) {
-      return await blogsCollections.findOne({ _id: new ObjectId(id) }) as BlogType;
-    }
+    if (id) return await blogsCollections.findOne({ _id: new ObjectId(id) }) as BlogType;
+
     return await blogsCollections.find().toArray();
   },
   createBlog: async (
