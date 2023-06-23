@@ -37,7 +37,7 @@ export const blogsRepository = {
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
     const result = await blogsCollections.updateOne({ id }, {
-      $set: { name, description, websiteUrl, createdAt: new Date() }
+      $set: { name, description, websiteUrl }
     });
     return result.modifiedCount === 1;
   },

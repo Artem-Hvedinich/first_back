@@ -30,10 +30,10 @@ export const postsRepository = {
     let result;
     blogId ?
       result = await postsCollections.updateOne({ id }, {
-        $set: { title, shortDescription, content, blogId, createdAt: new Date() }
+        $set: { title, shortDescription, content, blogId }
       })
       : result = await postsCollections.updateOne({ id }, {
-        $set: { title, shortDescription, content, createdAt: new Date() }
+        $set: { title, shortDescription, content }
       });
     return result.modifiedCount === 1;
   },
