@@ -1,4 +1,4 @@
-import {productCollections, ProductType} from "../../db";
+import {productCollections, ProductType} from "../../DB/db";
 
 export const productsRepository = {
     async getProducts(): Promise<ProductType[]> {

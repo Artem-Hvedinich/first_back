@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { productsRouter } from "./router/products-router";
-import { runDB } from "./db";
+import { runDB } from "./DB/db";
 import { videosRouter } from "./router/videos/videos-router";
 import { videosRepository } from "./repository/videos/videos-repository";
 import { blogsRouter } from "./router/blogs/blogs-router";

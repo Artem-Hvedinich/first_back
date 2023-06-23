@@ -1,5 +1,5 @@
-import { blogsCollections, BlogType } from "../../db";
-import { ObjectId, WithId } from "mongodb";
+import { blogsCollections, BlogType } from "../../DB/blogsDB";
+import { ObjectId } from "mongodb";
 
 type updateData = {
   name: string,
@@ -27,7 +27,6 @@ export const blogsRepository = {
       websiteUrl
     };
     const result = await blogsCollections.insertOne(newBlogs);
-
     return { ...newBlogs, _id: result.insertedId };
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
@@ -48,5 +47,3 @@ export const blogsRepository = {
     return result.deletedCount !== 0;
   }
 };
-
-
