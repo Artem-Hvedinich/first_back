@@ -42,8 +42,7 @@ export const postsRepository = {
   },
   removeAllPosts: async (): Promise<boolean> => {
     const arr = await postsRepository.findPost() as PostType[];
-    if (arr.length === 0) return true;
     const result = await postsCollections.deleteMany();
-    return result.deletedCount !== 0;
+    return arr.length === 0 ? true : result.deletedCount !== 0;
   }
 };
