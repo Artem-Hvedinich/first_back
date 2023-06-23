@@ -14,7 +14,7 @@ export const postsRepository = {
   createPost: async ({ title, shortDescription, content, blogId }: PostType)
     : Promise<PostType | null> => {
     const newPost = {
-      id: "post" + new Date(),
+      id: "post" + new Date().getMilliseconds(),
       title,
       shortDescription,
       content,
@@ -30,12 +30,10 @@ export const postsRepository = {
     let result;
     blogId ?
       result = await postsCollections.updateOne({ id }, {
-        $set: { title, shortDescription, content, blogId },
-        $setOnInsert: { createdAt: new Date() }
+        $set: { title, shortDescription, content, blogId, createdAt: new Date() }
       })
       : result = await postsCollections.updateOne({ id }, {
-        $set: { title, shortDescription, content },
-        $setOnInsert: { createdAt: new Date() }
+        $set: { title, shortDescription, content, createdAt: new Date() }
       });
     return result.modifiedCount === 1;
   },
