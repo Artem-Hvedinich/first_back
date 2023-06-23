@@ -1,5 +1,6 @@
 import { blogsCollections, BlogType } from "../../DB/blogsDB";
 import { ObjectId } from "mongodb";
+import { deleteObjectId } from "../../composeble/utils";
 
 type updateData = {
   name: string,
@@ -9,9 +10,13 @@ type updateData = {
 
 export const blogsRepository = {
   findBlog: async (id?: string): Promise<BlogType[] | BlogType> => {
-    // if (id) return await blogsCollections.findOne({ _id: id) }) as BlogType;
-    if (id) return await blogsCollections.findOne({ id }) as BlogType;
-    return await blogsCollections.find().toArray();
+    let result;
+    if (id) {
+      result = await blogsCollections.findOne({ id }) as BlogType;
+      return deleteObjectId<BlogType>(result);
+    }
+    result = await blogsCollections.find().toArray();
+    return result.map(b => deleteObjectId(b));
   },
   createBlog: async (
     name: string,
@@ -19,21 +24,19 @@ export const blogsRepository = {
     websiteUrl: string
   )
     : Promise<BlogType | null> => {
-    const newBlogs = {
-      id: "blog_" + new Date(),
+    const newBlog = {
+      id: "blog_" + new Date().getMilliseconds(),
       name,
       description,
       websiteUrl,
       createdAt: new Date(),
       isMembership: false
     };
-    const result = await blogsCollections.insertOne(newBlogs);
-    // return { ...newBlogs, _id: result.insertedId };
-    return newBlogs;
+    await blogsCollections.insertOne(newBlog);
+
+    return deleteObjectId<BlogType>(newBlog);
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
-    // const _id = new ObjectId(id);
-    // const result = await blogsCollections.updateOne({ _id }, {
     const result = await blogsCollections.updateOne({ id }, {
       $set: { name, description, websiteUrl },
       $setOnInsert: { createdAt: new Date() }
@@ -41,8 +44,6 @@ export const blogsRepository = {
     return result.modifiedCount === 1;
   },
   removeOneBlog: async (id: string): Promise<boolean> => {
-    // const _id = new ObjectId(id);
-    // const result = await blogsCollections.deleteOne({ _id });
     const result = await blogsCollections.deleteOne({ id });
     return result.deletedCount === 1;
   },
