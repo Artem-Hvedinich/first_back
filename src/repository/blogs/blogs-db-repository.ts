@@ -31,7 +31,8 @@ export const blogsRepository = {
       createdAt: new Date(),
       isMembership: false
     };
-    await blogsCollections.insertOne(newBlog);
+    const resp = await blogsCollections.insertOne(newBlog);
+    console.log(resp, deleteObjectId<BlogType>(newBlog));
     return deleteObjectId<BlogType>(newBlog);
   },
   updateBlog: async ({ name, description, websiteUrl }: updateData, id: string): Promise<boolean> => {
