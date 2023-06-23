@@ -1,10 +1,10 @@
 import { body, param } from "express-validator";
-import { postsInMemoryRepository } from "../../repository/posts/posts-in-memory-repository";
+import { postsRepository } from "../../repository/posts/posts-db-repository";
 import { blogsRepository } from "../../repository/blogs/blogs-db-repository";
 
 export const universalValidate = {
   checkPostParamId: param("id").custom(async v => {
-    const result = await postsInMemoryRepository.findPost(v);
+    const result = await postsRepository.findPost(v);
     return Array.isArray(result) ? result.length > 0 : Object.keys(result || {}).length > 0;
   }),
   checkBlogParamId: param("id").custom(async v => {

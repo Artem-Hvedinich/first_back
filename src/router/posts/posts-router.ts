@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { postsRepository } from "../../repository/posts/posts-repository";
+import { postsRepository } from "../../repository/posts/posts-db-repository";
 import { postsValidate } from "../../middleware/posts/posts-validation-middleware";
 import { universalValidate } from "../../middleware/universal/universal-validation-middleware";
 import { authValidate } from "../../middleware/auth/auth-validation-middleware";
@@ -22,22 +22,23 @@ postsRouter.post("/",
   postsValidate.title,
   postsValidate.shortDescription,
   postsValidate.content,
-  universalValidate.checkBlogBodyId,
+  universalValidate.checkUpdateBlogBodyId,
   inputValidationMiddleware,
   // checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
     const post = await postsRepository.createPost(req.body);
     res.status(201).send(post);
   });
-postsRouter.get("/:id", async (req: Request, res: Response) => {
-  const post = await postsRepository.findPost(req.params.id);
-  console.log(post);
-  if (!post) {
-    res.sendStatus(404);
-    return;
-  }
-  res.status(200).send(post);
-});
+postsRouter.get("/:id",
+  async (req: Request, res: Response) => {
+    const post = await postsRepository.findPost(req.params.id);
+    console.log(post);
+    if (!post) {
+      res.sendStatus(404);
+      return;
+    }
+    res.status(200).send(post);
+  });
 
 postsRouter.put("/:id",
   authValidate.authorization,
