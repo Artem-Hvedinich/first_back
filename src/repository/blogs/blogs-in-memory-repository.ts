@@ -1,4 +1,4 @@
-import { BlogType } from "../../DB/db";
+import { BlogType } from "../../DB/blogsDB";
 import { ObjectId } from "mongodb";
 
 type updateData = {
