@@ -10,7 +10,6 @@ type updateData = {
 export const blogsRepository = {
   findBlog: async (id?: string): Promise<BlogType[] | BlogType> => {
     if (id) return await blogsCollections.findOne({ _id: new ObjectId(id) }) as BlogType;
-
     return await blogsCollections.find().toArray();
   },
   createBlog: async (
@@ -23,7 +22,9 @@ export const blogsRepository = {
       // _id: "blog" + blogsDB.length,
       name,
       description,
-      websiteUrl
+      websiteUrl,
+      createdAt: new Date(),
+      isMembership: true
     };
     const result = await blogsCollections.insertOne(newBlogs);
     return { ...newBlogs, _id: result.insertedId };
@@ -32,7 +33,8 @@ export const blogsRepository = {
     console.log("updateBlog");
     const _id = new ObjectId(id);
     const result = await blogsCollections.updateOne({ _id }, {
-      $set: { name, description, websiteUrl }
+      $set: { name, description, websiteUrl },
+      $setOnInsert: { createdAt: new Date() }
     });
     return result.modifiedCount === 1;
   },
