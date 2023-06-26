@@ -8,6 +8,8 @@ import {
 } from "../../middleware/input-validation-middleware";
 import { blogValidate } from "../../middleware/blogs/blogs-validation-middleware";
 import { universalValidate } from "../../middleware/universal/universal-validation-middleware";
+import { postsRepository } from "../../repository/posts/posts-db-repository";
+import { postsValidate } from "../../middleware/posts/posts-validation-middleware";
 
 export const blogsRouter = Router();
 
@@ -52,7 +54,6 @@ blogsRouter.put("/:id",
   universalValidate.checkBlogParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
-    console.log(req.params.id);
     const isUpdate = await blogsRepository.updateBlog(req.body, req.params.id);
     isUpdate ? res.sendStatus(204) : res.sendStatus(404);
   });
@@ -64,4 +65,19 @@ blogsRouter.delete("/:id",
   async (req: Request, res: Response) => {
     const isRemove = await blogsRepository.removeOneBlog(req.params.id);
     isRemove ? res.sendStatus(204) : res.sendStatus(404);
+  });
+
+blogsRouter.get("/:id/posts",
+  authValidate.authorization,
+  authValidationMiddleware,
+  postsValidate.title,
+  postsValidate.shortDescription,
+  postsValidate.content,
+  universalValidate.checkUpdateBlogBodyId,
+  inputValidationMiddleware,
+  universalValidate.checkBlogParamId,
+  checkedIdValidationMiddleware,
+  async (req: Request, res: Response) => {
+    const post = await postsRepository.createPost(req.body);
+    post ? res.status(201).send(post) : res.sendStatus(404);
   });
