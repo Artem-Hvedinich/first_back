@@ -68,6 +68,14 @@ blogsRouter.delete("/:id",
   });
 
 blogsRouter.get("/:id/posts",
+  universalValidate.checkBlogParamId,
+  checkedIdValidationMiddleware,
+  async (req: Request, res: Response) => {
+    const post = await postsRepository.findPost(req.body);
+    post ? res.status(201).send(post) : res.sendStatus(404);
+  });
+
+blogsRouter.post("/:id/posts",
   authValidate.authorization,
   authValidationMiddleware,
   postsValidate.title,
@@ -78,6 +86,6 @@ blogsRouter.get("/:id/posts",
   universalValidate.checkBlogParamId,
   checkedIdValidationMiddleware,
   async (req: Request, res: Response) => {
-    const post = await postsRepository.createPost(req.body);
+    const post = await postsRepository.findPost(req.body);
     post ? res.status(201).send(post) : res.sendStatus(404);
   });
